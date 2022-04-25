@@ -6,10 +6,11 @@ import { set_localPictures } from '../store/pictureSlice';
 import { useDispatch } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import { MyButton } from './MyButton';
-
+import * as MediaLibrary from 'expo-media-library';
 
 export default function MyCamera() {
   const [hasPermission, setHasPermission] = useState(null);
+  const [mediaLibraryStatus, requestPermission] = MediaLibrary.usePermissions();
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef<Camera | null>();
   const dispatch = useDispatch();
@@ -18,13 +19,15 @@ export default function MyCamera() {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
+
+      await MediaLibrary.requestPermissionsAsync();
     })();
   }, []);
 
-  if (hasPermission === null) {
+  if (hasPermission === null || mediaLibraryStatus === null) {
     return <View />;
   }
-  if (hasPermission === false) {
+  if (hasPermission === false || mediaLibraryStatus.status === 'denied') {
     return <Text>No access to camera</Text>;
   }
 

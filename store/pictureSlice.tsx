@@ -25,7 +25,29 @@ export const pictureSlice = createSlice({
       storeData();
       return state;
     },
+    delete_picture: (state, action) => {
+      const newState : any = [];
+      state.forEach(picture => {
+        console.log('payload', JSON.parse(action.payload).uri);
+        console.log('picture', JSON.parse(picture).uri);
+        if(JSON.parse(picture).uri != JSON.parse(action.payload).uri) {
+          newState.push(picture);
+        }
+      });
+
+      const updateStore = async () => {
+        try {
+          state = newState;
+          await AsyncStorage.setItem('localPictures', JSON.stringify(state));
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      updateStore();
+      return state;
+    },
   },
 });
-export const { set_localPictures } = pictureSlice.actions;
+export const { set_localPictures, delete_picture } = pictureSlice.actions;
 export const pictureSliceReducer = pictureSlice.reducer;
