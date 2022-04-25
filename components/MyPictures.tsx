@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
 
-export default function MyPictures() {
+const MyPictures: React.FunctionComponent = ({}) => {
   const pictures =  useSelector((state: RootState) => {
     return state.pictures.map((value) => {
       return JSON.parse(value);
@@ -30,13 +30,18 @@ export default function MyPictures() {
   );
 }
 
+export default MyPictures;
+
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        flexDirection: 'row-reverse'
+        flexDirection: 'row-reverse',
+        marginHorizontal: 10
     },
     thumb: {
-      width: 100,
+      marginRight: 5,
+      marginBottom: 10,
+      width: 80,
       height: 100,
       borderColor: 'black',
       borderWidth: 1

@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { Text, View } from '../components/Themed';
-import { AntDesign } from '@expo/vector-icons';
 import { set_localPictures } from '../store/pictureSlice';
 import { useDispatch } from 'react-redux';
+import { AntDesign } from '@expo/vector-icons';
+import { MyButton } from './MyButton';
 
 
 export default function MyCamera() {
@@ -36,32 +36,33 @@ export default function MyCamera() {
       .catch(e => console.log('error', e));
   }
 
+  const handleType = () => {
+    setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front: Camera.Constants.Type.back);
+  }
+
   return (
     <Camera style={styles.camera} type={type} ref={(camera) => {cameraRef.current = camera}}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={takePicture} style={styles.buttonPhoto} />
-          <TouchableOpacity onPress={() => console.log('c')} style={styles.buttonGallery} >
-            <AntDesign name="picture" size={40} color="white" />
-          </TouchableOpacity>
+          <MyButton 
+            style={styles.button} 
+            onPressFunction={handleType} 
+            icon={<AntDesign name="retweet" size={30} color="white" />} />
+          <MyButton 
+            style={styles.buttonPhoto} 
+            onPressFunction={takePicture} 
+            icon={<AntDesign name="camera" size={30} color="white" />} />
         </View>
       </Camera>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   camera: {
     flex: 1,
+    margin: 20
   },
   buttonContainer: {
     flex: 1,
@@ -77,22 +78,10 @@ const styles = StyleSheet.create({
     flex: 0.1,
     alignItems: 'center',
     left: 15,
-    top: 20
-  },
-  text: {
-    fontSize: 18,
-    color: 'white',
+    bottom: 20
   },
   buttonPhoto: {
-    backgroundColor: 'white',
-    width: 70,
-    height: 70,
-    borderRadius: 40,
-    marginBottom: 10
-  },
-  buttonGallery: {
-    position: 'absolute',
-    right: 15,
-    bottom: 20
+    padding: 10,
+    marginBottom: 12
   }
 });
