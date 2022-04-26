@@ -2,14 +2,14 @@ import { StyleSheet } from 'react-native';
 import React from 'react';
 import { View } from '../components/Themed';
 import MyCamera from '../components/MyCamera';
-import MyPictures from '../components/MyPictures';
+import MyGallery from '../components/MyGallery';
 
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <MyCamera />
-      <MyPictures />
+      <MyGallery />
     </View>
   );
 }
