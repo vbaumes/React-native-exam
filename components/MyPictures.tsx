@@ -8,7 +8,6 @@ type PicturesComponentProps = {
 };
 
 const MyPictures: React.FunctionComponent<PicturesComponentProps> = ({item}) => {
-    console.log(item);
   return (
     <View>
       <Image source={{uri: item.uri}} style={styles.thumb} />
@@ -23,8 +22,8 @@ const styles = StyleSheet.create({
     thumb: {
       marginRight: 5,
       marginBottom: 10,
-      width: 80,
-      height: 100,
+      width: 100,
+      height: 150,
       borderColor: 'black',
       borderWidth: 1
     }, 

@@ -22,9 +22,14 @@ You can :
 
 ### Tools
 
-- Redux toolkit.
 - AsyncStorage.
 - Type with typeScript.
+- react-native-elements (BottomSheet)
+- expo/@vector-icons (Pictogrammes)
+- expo-camera
+- expo-sharing
+- expo-media-library
+- redux-toolkit
 
 ### TODO
 

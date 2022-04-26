@@ -35,8 +35,8 @@ const list = [
 return (
   <SafeAreaProvider>
     <MyButton 
-        icon={<AntDesign name="delete" size={30} color="red" />} 
-        style={styles.deleteButton} 
+        icon={<AntDesign name="delete" size={20} color="red" />} 
+        style={styles.iconStyle} 
         onPressFunction={() => setIsVisible(true)} 
     />
     <BottomSheet modalProps={{}} isVisible={isVisible}>
@@ -57,9 +57,9 @@ return (
 };
 
 const styles = StyleSheet.create({
-  deleteButton: {
-    margin: 5
-  },
+  iconStyle: {
+    width: 20
+  }
 });
 
 export default MyBottomSheet;

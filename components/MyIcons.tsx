@@ -4,12 +4,33 @@ import { View } from '../components/Themed';
 import { AntDesign } from '@expo/vector-icons';
 import { MyButton } from './MyButton';
 import MyBottomSheet from './MyBottomSheet';
+import * as MediaLibrary from 'expo-media-library';
 
 type IconsComponentProps = {
     uri: string
 };
 
 const MyIcons: React.FunctionComponent<IconsComponentProps> = ({uri}) => {
+
+  const onSave = async () => {
+    const ALBUM_NAME = 'Album test';
+    let album: any = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+    if(!album) {
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      console.log(asset);
+      album = MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, false)
+        .catch(e => {
+          console.log(e);
+        });
+    } else {
+      MediaLibrary.createAssetAsync(uri)
+        .then(asset =>  MediaLibrary.addAssetsToAlbumAsync(asset, album, false))
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
+
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -29,22 +50,24 @@ const MyIcons: React.FunctionComponent<IconsComponentProps> = ({uri}) => {
     }
   };   
 
-    return (
-      <View style={styles.container}>
-        <MyBottomSheet uri={uri} />
-        <MyButton icon={<AntDesign name="cloudupload" size={30} color="black" />} style={styles.deleteButton} onPressFunction={onShare} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <MyButton icon={<AntDesign name="download" size={20} color="black" />} style={{}} onPressFunction={onSave} />
+      <MyButton icon={<AntDesign name="cloudupload" size={24} color="black" />} style={{marginHorizontal: 5}} onPressFunction={onShare} />
+      <MyBottomSheet uri={uri} />
+    </View>
+  );
+}
 
 export default MyIcons;
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    deleteButton: {
-      margin: 5
-    },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginLeft: 12
+  }
 });
