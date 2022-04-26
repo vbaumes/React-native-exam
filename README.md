@@ -3,11 +3,13 @@
 ## Stack
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra&layout=compact)](https://github.com/anuraghazra/github-readme-stats)
 
-You need to run :
+You need to install the node modules by running on the terminal:
 
 `npm i`
 
-To start you need to run : 
+You need to change the ip address on saveInCloud function in MyIcons.tsx file with the address ip of the computer running the server. 
+
+Then, to start you need to run : 
 
 `expo start`
 
@@ -30,12 +32,8 @@ You can :
 - expo-sharing
 - expo-media-library
 - redux-toolkit
+- axios
 
 ### TODO
 
-I wanted to do a component for : 
-    <View style={styles.iconsContainer}>
-        <MyBottomSheet uri={item.uri} />
-        <MyButton icon={<AntDesign name="cloudupload" size={30} color="black" />} style={styles.deleteButton} onPressFunction={onShare} />
-    <View>
-to reduce the size of MyPictures.tsx
+Create an environment variable for the IP address of the computer that runs the server in order to simulate the app directly on the phone. 

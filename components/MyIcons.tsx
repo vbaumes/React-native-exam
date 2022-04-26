@@ -1,18 +1,18 @@
-import { StyleSheet, Share } from 'react-native';
+import { StyleSheet, Share, Platform } from 'react-native';
 import React from 'react';
 import { View } from '../components/Themed';
 import { AntDesign } from '@expo/vector-icons';
 import { MyButton } from './MyButton';
 import MyBottomSheet from './MyBottomSheet';
 import * as MediaLibrary from 'expo-media-library';
+import axios from 'axios';
 
 type IconsComponentProps = {
     uri: string
 };
 
 const MyIcons: React.FunctionComponent<IconsComponentProps> = ({uri}) => {
-
-  const onSave = async () => {
+  const saveInAlbum = async () => {
     const ALBUM_NAME = 'Album test';
     let album: any = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
     if(!album) {
@@ -29,6 +29,29 @@ const MyIcons: React.FunctionComponent<IconsComponentProps> = ({uri}) => {
           console.log(e);
         });
     }
+  }
+
+  const saveInCloud = async () => {
+    const formData = new FormData();
+    const uriToSend = Platform.OS === 'ios' ? uri.split('file://')[1] : uri;
+    const image = { name:'picture', type:'image/jpg', uri: uriToSend };
+
+    // @ts-ignore
+    formData.append('photo', image );
+
+    await axios.patch('http://10.50.37.166:7070/multipart-upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformRequest: () => {
+        return formData; // this is doing the trick
+      }
+    });
+  }
+
+  const onSave = async () => {
+    saveInAlbum();
+    saveInCloud();
   }
 
   const onShare = async () => {
